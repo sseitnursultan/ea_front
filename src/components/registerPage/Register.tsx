@@ -1,6 +1,8 @@
 import React, {SyntheticEvent, useState} from 'react';
 import {Col, Button, Row, Container, Card, Form} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import './Register.scss'
+
 
 interface RegisterProps {
 }
@@ -87,7 +89,7 @@ export const Register: React.FC<RegisterProps> = () => {
 
         if (isNameValid && isLastNameValid && isEmailValid && isPasswordValid) {
             // Все данные валидны, отправляем запрос
-            const response = await fetch('https://httpbin.org/post', {
+            const response = await fetch(process.env.REACT_APP_BACK_URL + '/auth/authorize' , {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -97,6 +99,8 @@ export const Register: React.FC<RegisterProps> = () => {
                     password,
                 }),
             })
+
+
             if(!response.ok){
                 throw new Error('Error')
             }

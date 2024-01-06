@@ -15,7 +15,7 @@ export function Login() {
     const submit = async (e:SyntheticEvent) =>{
         e.preventDefault()
 
-        const response = await fetch('https://httpbin.org/123321',{
+        const response = await fetch(process.env.REACT_APP_BACK_URL + '/auth/login',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:'include',

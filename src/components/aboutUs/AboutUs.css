@@ -1,0 +1,102 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Tinos&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Esteban&display=swap');
+
+
+
+.AboutCompany{
+  margin-bottom: 150px;
+}
+
+.About-container{
+  margin-top: 50px;
+  margin-left: 170px;
+  width: 900px;
+  height: 400px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.leftSide{
+  position: relative;
+  width: 450px;
+  height: 400px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.leftSide img{
+  height: 100%;
+  width:  400px;
+  position: absolute;
+  left: 0px;
+  right: 1px;
+  z-index: 1;
+}
+
+.blue {
+  width: 400px;
+  height: 340px;
+  background-color: #30426A;
+  position: relative;
+}
+
+.blue::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 30px;
+  height: 100%;
+  width: 1px;
+  background-color: #FFFFFF;
+  opacity: 0.2;
+}
+
+.blue::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  right: 0;
+  height: 1px;
+  width: 100%;
+  background-color: #FFFFFF;
+  opacity: 0.2;
+}
+
+.rightSide{
+  width: 450px;
+  height: 400px;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  flex-direction: column;
+  padding-left: 40px;
+  padding-top: 20px;
+}
+
+.rightSide h3{
+  font-family: Literat,sans-serif;
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.rightSide p{
+  font-family: "Times New Roman",sans-serif;
+  margin-top: 10px;
+  font-size: 14px;
+  width: 370px;
+}
+
+
+
+
+
+
+
+
+
+

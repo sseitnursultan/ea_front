@@ -2,12 +2,15 @@ import React from 'react';
 import './Subscription.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from "react-router-dom";
+import {Header} from "../header/Header";
+import {Footer} from "../footer/Footer";
 
 
-export function Subscription() {
+export function Subscription(props:any) {
 
     return (
         <div>
+            <Header name={props.name}/>
             <section id="pricing" className="pricing-content section-padding">
                 <div className="container">
                     <div className="section-title text-center">
@@ -28,11 +31,10 @@ export function Subscription() {
                                 <h1 className="price">$49</h1>
                                 <h5>Monthly</h5>
                                 <ul>
-                                    <li>10 website</li>
-                                    <li>50GB Disk Space</li>
-                                    <li>50 Email Accounts</li>
-                                    <li>50GB Monthly Bandwidth</li>
-                                    <li>10 Subdomains</li>
+                                    <li>posts</li>
+                                    <li>sub-category</li>
+                                    <li>sub-category</li>
+
                                 </ul>
                                 <Link to={'/payment/oilandgas'}>Get start</Link>
                             </div>
@@ -51,11 +53,10 @@ export function Subscription() {
                                 <h1 className="price">$49</h1>
                                 <h5>Monthly</h5>
                                 <ul>
-                                    <li>10 website</li>
-                                    <li>50GB Disk Space</li>
-                                    <li>50 Email Accounts</li>
-                                    <li>50GB Monthly Bandwidth</li>
-                                    <li>10 Subdomains</li>
+                                    <li>posts</li>
+                                    <li>sub-category</li>
+                                    <li>sub-category</li>
+
                                 </ul>
                                 <Link to={'/payment'}>Get start</Link>
                             </div>
@@ -74,11 +75,10 @@ export function Subscription() {
                                 <h1 className="price">$49</h1>
                                 <h5>Monthly</h5>
                                 <ul>
-                                    <li>10 website</li>
-                                    <li>50GB Disk Space</li>
-                                    <li>50 Email Accounts</li>
-                                    <li>50GB Monthly Bandwidth</li>
-                                    <li>10 Subdomains</li>
+                                    <li>posts</li>
+                                    <li>sub-category</li>
+                                    <li>sub-category</li>
+
                                 </ul>
                                 <Link to={'/payment'}>Get start</Link>
                             </div>
@@ -86,6 +86,7 @@ export function Subscription() {
                     </div>
                 </div>
             </section>
+            <Footer/>
         </div>
     );
 }

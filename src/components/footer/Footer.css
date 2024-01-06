@@ -1,0 +1,33 @@
+.footer {
+    width: 100%;
+    height: 100px;
+    background-color: #75c058;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+}
+
+.roww{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    color: #FFFFFF;
+}
+
+.roww .ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    list-style: none;
+}
+
+.roww .ul li a {
+    color: white;
+    text-decoration: none;
+    padding-left: 20px;
+
+}
