@@ -1,37 +1,117 @@
 import React, {SyntheticEvent, useState} from 'react';
-import {Col, Button, Row, Container, Card, Form} from "react-bootstrap";
-import {useNavigate} from 'react-router-dom'
+import {Col, Button, Row, Container, Card, Form} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
+
+interface RegisterProps {
+}
+
+export const Register: React.FC<RegisterProps> = () => {
+    const navigate = useNavigate();
+
+    const [name, setName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [responseStatus, setResponseStatus] = useState<number | null>(null); // Или другой тип данных в зависимости от ожидаемого ответа
+    const [responseError, setResponseError] = useState<string>('');
 
 
-export const Register = () => {
-    const navigate = useNavigate()
+    const [nameDirty, setNameDirty] = useState<boolean>(false);
+    const [lastNameDirty, setLastNameDirty] = useState<boolean>(false);
+    const [emailDirty, setEmailDirty] = useState<boolean>(false);
+    const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
 
-    const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [redirect,setRedirect] = useState(false)
+    const [nameError, setNameError] = useState<string>('Имя не может быть пустым');
+    const [lastNameError, setLastNameError] = useState<string>('Last Name не может быть пустым');
+    const [emailError, setEmailError] = useState<string>('Email не может быть пустым');
+    const [passwordError, setPasswordError] = useState<string>('Password не может быть пустым');
 
-    const submit = async (e: SyntheticEvent) => {
-        e.preventDefault()
+    const validateEmail = (value: string): boolean => {
+        setEmailDirty(true);
+        if (!value) {
+            setEmailError('Email не может быть пустым');
+            return false;
+        }
+        // Добавляем базовую проверку email (можно расширить эту проверку)
+        const isValidEmail = /\S+@\S+\.\S+/.test(value);
+        if (!isValidEmail) {
+            setEmailError('Введите корректный email');
+            return false;
+        }
+        setEmailError('');
+        return true;
+    };
 
-        console.log(process.env.REACT_APP_BACK_URL)
+    const validateName = (value: string): boolean => {
+        setNameDirty(true);
+        if (!isNaN(Number(value))) {
+            setNameError('Имя должно быть строкой');
+            return false;
+        }
+        setNameError('');
+        return true;
+    };
 
-        await fetch(process.env.REACT_APP_BACK_URL + '/api/register', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                name,
-                lastName,
-                email,
-                password
+    const validateLastName = (value: string): boolean => {
+        setLastNameDirty(true);
+        if (!isNaN(Number(value))) {
+            setLastNameError('Last Name должно быть строкой');
+            return false;
+        }
+        setLastNameError('');
+        return true;
+    };
+
+    const validatePassword = (value: string): boolean => {
+        setPasswordDirty(true);
+
+        // Регулярное выражение, которое проверяет наличие минимум 8 символов,
+        // как минимум одной заглавной буквы, одной строчной буквы и отсутствие спец. символов
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,}$/;
+
+        if (!passwordRegex.test(value)) {
+            setPasswordError('Пароль должен содержать минимум одну заглавную и одну строчную букву, без спец. символов, длиной не менее 8 символов');
+            return false;
+        }
+        setPasswordError('');
+        return true;
+    };
+
+    const submit = async (e: SyntheticEvent): Promise<void> => {
+        e.preventDefault();
+
+        const isNameValid: boolean = validateName(name);
+        const isLastNameValid: boolean = validateLastName(lastName);
+        const isEmailValid: boolean = validateEmail(email);
+        const isPasswordValid: boolean = validatePassword(password);
+
+        if (isNameValid && isLastNameValid && isEmailValid && isPasswordValid) {
+            // Все данные валидны, отправляем запрос
+            const response = await fetch('https://httpbin.org/post', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name,
+                    lastName,
+                    email,
+                    password,
+                }),
             })
-        })
-        setRedirect(true)
-    }
+            if(!response.ok){
+                throw new Error('Error')
+            }
 
-    if(redirect)
-    navigate('/login')
+            const responseData = await response.json()
+            setResponseStatus(response.status);
+
+            if(responseStatus === 200){
+                navigate('/login');
+            }
+            else{
+                navigate('/register')
+            }
+        }
+    };
 
     return (
         <div>
@@ -45,42 +125,53 @@ export const Register = () => {
                                     <div className="mb-3">
                                         <Form onSubmit={submit}>
                                             <Form.Group className="mb-3" controlId="Name">
-                                                <Form.Label className="text-center">
-                                                    Name
-                                                </Form.Label>
-                                                <Form.Control onChange={e => setName(e.target.value)} type="text"
-                                                              placeholder="Enter Name"/>
+                                                <Form.Label className="text-center">Name</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setName(e.target.value)}
+                                                    onBlur={(e) => validateName(e.target.value)}
+                                                    type="text"
+                                                    placeholder="Enter Name"
+                                                    value={name}
+                                                />
+                                                {nameDirty && <div className="text-danger">{nameError}</div>}
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="lastName">
-                                                <Form.Label className="text-center">
-                                                    Last Name
-                                                </Form.Label>
-                                                <Form.Control onChange={e => setLastName(e.target.value)} type="text"
-                                                              placeholder="Enter Last Name"/>
+                                                <Form.Label className="text-center">Last Name</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setLastName(e.target.value)}
+                                                    onBlur={(e) => validateLastName(e.target.value)}
+                                                    type="text"
+                                                    placeholder="Enter Last Name"
+                                                    value={lastName}
+                                                />
+                                                {lastNameDirty && <div className="text-danger">{lastNameError}</div>}
                                             </Form.Group>
 
                                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                                <Form.Label className="text-center">
-                                                    Email address
-                                                </Form.Label>
-                                                <Form.Control onChange={e => setEmail(e.target.value)} type="email"
-                                                              placeholder="Enter email"/>
+                                                <Form.Label className="text-center">Email address</Form.Label>
+                                                <Form.Control
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    onBlur={(e) => validateEmail(e.target.value)}
+                                                    type="email"
+                                                    placeholder="Enter email"
+                                                    value={email}
+                                                />
+                                                {emailDirty && <div className="text-danger">{emailError}</div>}
                                             </Form.Group>
 
-                                            <Form.Group
-                                                className="mb-3"
-                                                controlId="formBasicPassword"
-                                            >
+                                            <Form.Group className="mb-3" controlId="formBasicPassword">
                                                 <Form.Label>Password</Form.Label>
-                                                <Form.Control onChange={e => setPassword(e.target.value)}
-                                                              type="password" placeholder="Password"/>
+                                                <Form.Control
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    onBlur={(e) => validatePassword(e.target.value)}
+                                                    type="password"
+                                                    placeholder="Password"
+                                                    value={password}
+                                                />
+                                                {passwordDirty && <div className="text-danger">{passwordError}</div>}
                                             </Form.Group>
 
-                                            <Form.Group
-                                                className="mb-3"
-                                                controlId="formBasicCheckbox"
-                                            >
-                                            </Form.Group>
+                                            <Form.Group className="mb-3" controlId="formBasicCheckbox"></Form.Group>
                                             <div className="d-grid">
                                                 <Button variant="primary" type="submit">
                                                     Create Account

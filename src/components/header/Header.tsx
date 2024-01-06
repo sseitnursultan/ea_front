@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom'
 
 export function Header(props: { name: string }) {
 
-    let Name = "nUrsu"
+
 
     const Logout = async () => {
         await fetch(process.env.REACT_APP_BACK_URL + '/api/logout', {
@@ -16,6 +16,10 @@ export function Header(props: { name: string }) {
             headers: {'Content-Type': 'application/json'},
             credentials: 'include'
         })
+    }
+
+    const onClickSubscription = async ()=>{
+        console.log('sii')
     }
 
     return (
@@ -33,11 +37,11 @@ export function Header(props: { name: string }) {
                             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href="#pricing">About Us</Nav.Link>
-                        <Nav.Link><Link to={'/subscription'}>Subscription</Link></Nav.Link>
+                        <Nav.Link><Link onClick={onClickSubscription} to={'/subscription'}>Subscription</Link></Nav.Link>
                     </Nav>
                     <Nav>
-                        {Name ? (
-                            <NavDropdown title={Name} id="collapsible-nav-dropdown">
+                        {props.name ? (
+                            <NavDropdown title={props.name} id="collapsible-nav-dropdown">
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
                                 <NavDropdown.Item onClick={Logout}>
                                     <Link

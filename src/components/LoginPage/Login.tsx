@@ -15,7 +15,7 @@ export function Login() {
     const submit = async (e:SyntheticEvent) =>{
         e.preventDefault()
 
-        const response = await fetch(process.env.REACT_APP_BACK_URL + '/api/login',{
+        const response = await fetch('https://httpbin.org/123321',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:'include',
@@ -26,7 +26,6 @@ export function Login() {
         })
 
         const content = await response.json()
-
         setRedirect(true)
     }
 
