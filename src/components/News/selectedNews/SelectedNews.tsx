@@ -12,22 +12,25 @@ export const SelectedNews = (props: any) => {
 
 
     let div = (
-        <div className={'SelectedNews'}>
+        <div>
             <Header name={props.name}/>
-            <div className={'selectedNews-card'}>
-                <div className={'selectednews-title'}>
-                    <h3>{selectedNews.title}</h3>
-                    <hr/>
-                </div>
-                <div className={'selectednews-img'}>
-                    <img src={selectedNews.imgLink}/>
-                </div>
-                <div className={'selectednews-text'}>
-                    <p>{selectedNews.text}</p>
+            <div className={'SelectedNews'}>
+                <div className={'selectedNews-card'}>
+                    <div className={'selectednews-title'}>
+                        <h3>{selectedNews.title}</h3>
+                        <hr/>
+                    </div>
+                    <div className={'selectednews-img'}>
+                        <img src={selectedNews.imgLink}/>
+                    </div>
+                    <div className={'selectednews-text'}>
+                        <p>{selectedNews.text}</p>
+                    </div>
                 </div>
             </div>
             <Footer/>
         </div>
+
     )
     let isNotFree = (
         <div>
